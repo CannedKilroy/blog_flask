@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body,
+        html {
+            /* Full height for the page */
+            height: 100%;
+            margin: 0;
+        }
+
+        .container-flex {
+            display: flex;
+            /* Stack children vertically */
+            flex-direction: column;
+            /* 100% of the viewport height */
+            min-height: 100vh;
+        }
+
+        .navbar-brand {
+            /* Overrides the color of navbar brand */
+            color: #ffffff !important;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            /* Overrides the color of navbar links */
+            color: #add8e6 !important;
+        }
+
+        .content {
+            /* Grow to absorb space, pushing the footer down */
+            flex: 1;
+            padding: 10px;
+        }
+
+        .navbar-custom,
+        .footer-custom {
+            display: flex;
+            justify-content: space-between;
+            /* Align items on the space between */
+            width: 100%;
+        }
+
+        .footer {
+            padding: 10px 0;
+            background-color: #343a40;
+            color: #add8e6;
+        }
+
+        .footer a {
+            color: #add8e6;
+            /* Remove underline from links */
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #ccc;
+            /* Light grey on hover for interaction feedback */
+        }
+    </style>
+    <title>{% block title %}J.Schulz Blog{% endblock %}</title>
+</head>
+
+<body class="container-flex">
+    <!-- Navbar Section -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('index') }}">J.Schulz</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                    </li>
+                    {% if current_user.is_anonymous %}
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                    </li> -->
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('user', username=current_user.username) }}">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/CannedKilroy">Github</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.linkedin.com/in/schulz-josiah/">LinkedIn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('resume') }}">Resume</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container-fluid footer-custom">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    2024 Josiah Schulz. All rights reserved.
+                </li>
+
+            </ul>
+        </div>
+    </footer>
+</body>
+
+</html>

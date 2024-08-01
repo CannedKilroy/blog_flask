@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            /* Ensuring the font is consistent */
+            color: #333;
+            /* Dark grey text for better readability */
+        }
+
+        .container {
+            padding: 20px;
+            margin: auto;
+            width: 80%;
+            /* Limit width and center the container */
+            background-color: #f4f4f4;
+            /* Light grey background */
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 40px;
+            /* Large font size for name */
+            color: #212529;
+            /* Almost black color for the header */
+        }
+
+        .contact-info {
+            text-align: right;
+            font-size: 16px;
+        }
+
+        h2 {
+            color: #212529;
+            /* Header color */
+            border-bottom: 2px solid #212529;
+            /* Add a line under the headers */
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .skills ul,
+        .languages ul,
+        .experience ul {
+            list-style-type: none;
+            /* No bullets for lists */
+            padding: 0;
+        }
+
+        .skills li,
+        .languages li,
+        .experience li {
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #343a40;
+            color: #ffffff;
+        }
+    </style>
+    <title>Josiah Schulz - Resume</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Josiah Schulz</h1>
+            <div class="contact-info">
+                <p>(+337) 777 777 77</p>
+                <p>lorem@ipsum.com</p>
+                <p>New York, USA</p>
+                <p><a href="https://linkedin.com/in/schulz-josiah">LinkedIn</a></p>
+                <p><a href="https://github.com/CannedKilroy">GitHub</a></p>
+            </div>
+        </div>
+
+        <div class="section about-me">
+            <h2>About Me</h2>
+            <p>Enthusiastic Data Scientist with a robust background in mathematics and programming...</p>
+        </div>
+
+        <div class="section about-me">
+            <h2>Education</h2>
+            <p>a sss sss sss sss education</p>
+        </div>
+
+        <div class="section skills">
+            <h2>Skills</h2>
+            <ul>
+                <li>SQL, Python, R</li>
+                <li>Machine Learning, Data Visualization</li>
+                <li>Deep Learning Frameworks</li>
+            </ul>
+        </div>
+
+        <div class="section languages">
+            <h2>Languages</h2>
+            <ul>
+                <li>English</li>
+                <li>German</li>
+            </ul>
+        </div>
+
+        <div class="section experience">
+            <h2>Projects</h2>
+            <ul>
+                <li>asdasda</li>
+                <li>asdasdasd</li>
+            </ul>
+        </div>
+
+        <div class="section experience">
+            <h2>Experience</h2>
+            <ul>
+                <li>Data Scientist at TechCorp</li>
+                <li>Project Manager at BuildIt</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
+
+{% endblock %}
