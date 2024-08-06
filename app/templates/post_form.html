@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ 'Edit Post' if post_id else 'Create Post' }}</h1>
+    <form action="" method="post" class="needs-validation" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.title.label(class="form-label") }}
+            {{ form.title(class="form-control", placeholder="Enter post title") }}
+            {% if form.title.errors %}
+            <div class="invalid-feedback">
+                {% for error in form.title.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.body.label(class="form-label") }}
+            {{ form.body(class="form-control", rows=10, placeholder="Enter post content here...") }}
+            {% if form.body.errors %}
+            <div class="invalid-feedback">
+                {% for error in form.body.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.tag.label(class="form-label") }}
+            {{ form.tag(class="form-control", placeholder="Enter tags separated by commas") }}
+            {% if form.tag.errors %}
+            <div class="invalid-feedback">
+                {% for error in form.tag.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">{{ 'Update Post' if post_id else 'Create Post' }}</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,33 +1,12 @@
 from flask import render_template, flash, redirect, url_for, request
 from urllib.parse import urlsplit
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm, ResumeForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
+from app.models import User, Resume, Post
 import sqlalchemy as sa
 from datetime import datetime, timezone
-
-
-# Maps the urls of / and /index to this view function
-@app.route('/')
-@app.route('/index')
-def index():
-    user = {'username': 'Miguel'}
-    posts = [
-    {
-        'author': {'username': 'John'},
-        'body': 'Beautiful day in Portland!'
-    },
-    {
-        'author': {'username': 'Susan'},
-        'body': 'The Avengers movie was so cool!'
-    }]
-
-
-    # Render_template takes the bare html, 
-    # subs in the data, and returns the rendered template
-    return render_template('index.html', title='Home', posts=posts)
-
+from flask import current_app
 
 '''
 This tells flask that the view function accepts GET and POST
@@ -42,57 +21,74 @@ not change the state of the server, should only retrieve data.
 POST requests are used to send data to the server ie create or 
 update a resource. Typically used when submitting form data. 
 
-Use the url_for so to not hardcode the links. Url_for generates
-url links based on the internal mapping of urls to view functions
-ie, url_for('index') returns "/login"
+When the browser sends the POST request when 
+the user presses on the submit button
+it will gather the data and run the validators 
+and return true if the data is valid
+
+db.session for simple crud operations
 '''
 
 
+'''
+Index ie home page
+'''
+@app.route('/')
+@app.route('/index')
+def index():
+    # Get the user object
+    # Returns None if no rows present
+    username = current_app.config['BLOG_USERNAME']
+    user = db.first_or_404(sa.select(User).where(User.username == username))
+    if user is None:
+        flash('User does not exist')
+    posts = db.session.scalars(
+        sa.select(Post).order_by(Post.timestamp.desc())).all()
+    
+    result = db.session.execute(sa.select(Resume).where(Resume.id == 1))
+    resume = result.scalar_one_or_none()
+    
+    return render_template('index.html', user=user, posts=posts, resume=resume)
+
+
+'''
+Login url
+Not shown on website
+Manually navigate to url
+'''
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    # When the browser sends the POST request when 
-    # the user presses on the submit button
-    # it will gather the data and run the validators 
-    # and return true if the data is valid
-
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    
     form = LoginForm()
-    
-    if form.validate_on_submit():
 
-        # Get the user object
-        # db.session for simple crud operations
+    if form.validate_on_submit():
         user = db.session.scalar(
-            sa.select(User).where(User.username == form.username.data)
-        )
-        
+            sa.select(User).where(User.username == form.username.data))
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('login'))
-        
         login_user(user, remember=form.remember_me.data)
-
-        # Since the user is logged in, get the next page
-        # from the client sent with the request
         next_page = request.args.get('next')
-        
-        # If no next page, send to index
-        # If its a relative path, send to that url
-        # If next is full url that includes domain name, 
-        # redirect to index (insecure if you dont)
         if not next_page or urlsplit(next_page).netloc != '':
             next_page = url_for('index')
         return redirect(next_page)
+    
     return render_template('login.html', title='Login', form=form)
 
 
+"""
+Logout User
+"""
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
+
+"""
+Register User
+"""
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -108,19 +104,26 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
+
+"""
+User Profile
+"""
 @app.route('/user/<username>')
 @login_required
 def user(username):
     user = db.first_or_404(sa.select(User).where(User.username == username))
-    posts = [
-    {'author': user, 'body': 'Test post #1'},
-    {'author': user, 'body': 'Test post #2'}
-    ]
+    posts = db.session.scalars(
+        sa.select(Post).order_by(Post.timestamp.desc())).all()
     return render_template('user.html', user=user, posts=posts)
 
+
+"""
+Edit user profile
+"""
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
+    
     form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
         current_user.username = form.username.data
@@ -134,12 +137,92 @@ def edit_profile():
     return render_template('edit_profile.html', title='Edit Profile',
                            form=form)
 
+
 @app.before_request
 def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.now(timezone.utc)
         db.session.commit()
 
+
+"""
+Render Resume
+"""
 @app.route('/resume')
 def resume():
-    return render_template('resume.html', title='Resume')
+    result = db.session.execute(sa.select(Resume).where(Resume.id == 1))
+    resume = result.scalar_one_or_none()
+    return render_template('resume.html', title='Resume', resume=resume)
+
+
+"""
+Explore Blog Posts
+"""
+@app.route('/blog')
+def blog():
+    username = current_app.config['BLOG_USERNAME']
+    user = db.first_or_404(sa.select(User).where(User.username == username))
+    posts = db.session.scalars(sa.select(Post).order_by(Post.timestamp.desc())).all()
+    return render_template("explore.html", title='Explore', posts=posts)
+
+
+"""
+Create / Edit Articles
+"""
+@app.route('/edit_post/<int:post_id>', methods=['GET', 'POST'])
+@app.route('/create_post', defaults={'post_id': None}, methods=['GET', 'POST'])
+@login_required
+def post_form(post_id):
+    form = PostForm()
+    if post_id:
+        # Load Existing Post
+        post = Post.query.get_or_404(post_id)
+        # Populate fields
+        if request.method == 'GET':
+            form.title.data = post.title
+            form.body.data = post.body
+            form.tag.data = post.tag
+    else:
+        post = Post()
+        post.user_id = current_user.id
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.body = form.body.data
+        post.tag = form.tag.data
+        # If new post, add to session
+        if not post_id:
+            db.session.add(post)
+        db.session.commit()
+        flash('Your post has been published!' if not post_id else 'Your post has been updated!')
+        return redirect(url_for('index'))
+    return render_template('post_form.html', title='Edit Post' if post_id else 'Create Post', form=form)
+
+
+"""
+Render article
+"""
+@app.route('/article/<int:article_id>')
+def article(article_id):
+    post = Post.query.get(article_id)
+    return render_template('post.html', post=post)
+
+
+"""
+Edit resume
+"""
+@app.route('/edit_resume/<int:resume_id>', methods=['GET', 'POST'])
+@login_required
+def edit_resume(resume_id=None):
+
+    resume = Resume.query.get_or_404(resume_id) if resume_id else Resume()
+    form = ResumeForm(obj=resume)
+    
+    if form.validate_on_submit():
+        form.populate_obj(resume)
+        if not resume_id:
+            db.session.add(resume)
+        db.session.commit()
+        flash('Your resume has been updated!' if resume_id else 'Your resume has been created!')
+        return redirect(url_for('index'))
+    
+    return render_template('resume_form.html', title='Edit Resume' if resume_id else 'Create Resume', form=form)

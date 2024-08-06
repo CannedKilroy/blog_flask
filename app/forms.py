@@ -9,6 +9,8 @@ from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Le
 import sqlalchemy as sa
 from app import db
 from app.models import User
+from flask_mdeditor import MDEditorField
+
 
 class LoginForm(FlaskForm):
     username = StringField(label='Username', validators=[DataRequired()])
@@ -54,16 +56,39 @@ class RegistrationForm(FlaskForm):
 
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
+    about_me = TextAreaField('About me')
     submit = SubmitField('Submit')
 
     def __init__(self, original_username, *args, **kwargs):
+        # Pass in original username, which is current user
         super().__init__(*args, **kwargs)
         self.original_username = original_username
 
     def validate_username(self, username):
+        # If new username is different from the original
+        # Check username is unique
         if username.data != self.original_username:
             user = db.session.scalar(sa.select(User).where(
                 User.username == username.data))
             if user is not None:
-                raise ValidationError('Please use a different username.')
+                raise ValidationError('Please use a different username. This one is taken')
+
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    tag = StringField('Tag', validators=[DataRequired()])
+    body = MDEditorField('Content', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+class ResumeForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    about_me = TextAreaField('About_Me', validators=[DataRequired()])
+    education = TextAreaField('education', validators=[DataRequired()])
+    skills = TextAreaField('skills', validators=[DataRequired()])
+    languages = TextAreaField('languages', validators=[DataRequired()])
+    projects = TextAreaField('projects', validators=[DataRequired()])
+    experience = TextAreaField('experience', validators=[DataRequired()])
+    location = StringField('location', validators=[DataRequired()])
+    email = StringField('email')
+    phone_num = StringField('phone_num')
+    linkedin = StringField('linkedin', validators=[DataRequired()])
+    github = StringField('github', validators=[DataRequired()])

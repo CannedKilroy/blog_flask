@@ -36,10 +36,11 @@ class User(UserMixin, db.Model):
     posts: so.WriteOnlyMapped['Post'] = so.relationship(
     back_populates='author')
 
-    about_me: so.Mapped[Optional[str]] = so.mapped_column(sa.String(140))
+    about_me: so.Mapped[Optional[str]] = so.mapped_column(sa.Text)
     last_seen: so.Mapped[Optional[datetime]] = so.mapped_column(
         default=lambda: datetime.now(timezone.utc))
-
+    
+    ##################################################################
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return f'https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}'
@@ -56,12 +57,16 @@ class User(UserMixin, db.Model):
 
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    body: so.Mapped[str] = so.mapped_column(sa.String(140))
+    title: so.Mapped[str] = so.mapped_column(sa.Text)
+    tag: so.Mapped[str] = so.mapped_column(sa.String(length=64))
+    body: so.Mapped[str] = so.mapped_column(sa.Text)
     timestamp: so.Mapped[datetime] = so.mapped_column(
         index=True,
         default=lambda: datetime.now(timezone.utc))
-    user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id),
-                                               index=True)
+    user_id: so.Mapped[int] = so.mapped_column(
+        sa.ForeignKey(User.id),
+        index=True
+    )
     
     # so.relationship is not a real relationship but a high level view between post and author
     # it establishes a bidirectional relationship
@@ -70,4 +75,26 @@ class Post(db.Model):
     author: so.Mapped[User] = so.relationship(back_populates='posts')
 
     def __repr__(self):
-        return f'<Post {self.body}>'
+        return f'<id:{self.id} title:{self.title} tag:{self.tag} body:{self.body} timestamp:{self.timestamp} user_id:{self.user_id}>'
+        
+
+
+class Resume(db.Model):
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    name: so.Mapped[str] = so.mapped_column(sa.Text)
+
+    about_me: so.Mapped[str] = so.mapped_column(sa.Text, nullable=True)
+    education: so.Mapped[str] = so.mapped_column(sa.Text)
+    skills: so.Mapped[str] = so.mapped_column(sa.Text)
+    languages: so.Mapped[str] = so.mapped_column(sa.Text)
+    projects: so.Mapped[str] = so.mapped_column(sa.Text)
+    experience: so.Mapped[str] = so.mapped_column(sa.Text)
+
+    location: so.Mapped[str] = so.mapped_column(sa.Text, nullable=True)
+    email: so.Mapped[str] = so.mapped_column(sa.Text, nullable=True)
+    phone_num: so.Mapped[str] = so.mapped_column(sa.Text, nullable=True)
+    linkedin: so.Mapped[str] = so.mapped_column(sa.Text)
+    github: so.Mapped[str] = so.mapped_column(sa.Text)
+
+    def __repr__(self):
+        return f'<Resume {self.name}>'

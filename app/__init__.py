@@ -3,14 +3,29 @@ from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_mdeditor import MDEditor
 from logging.handlers import RotatingFileHandler
+
 import logging
 import os
+import markdown2
 
 app = Flask(__name__)
+basedir = os.path.abspath(os.path.dirname(__file__))
 app.config.from_object(Config) # Read and apply the configs
 db = SQLAlchemy(app=app)
 migrate = Migrate(app=app, db=db)
+app.config['MDEDITOR_FILE_UPLOADER'] = os.path.join(basedir, 'static', 'images')
+mdeditor = MDEditor(app)
+
+# Define a custom filter to convert Markdown to HTML
+@app.template_filter('markdown')
+def markdown_to_html(markdown_text):
+    """Convert Markdown text to HTML"""
+    html = markdown2.markdown(markdown_text)
+    return html
+
+app.jinja_env.filters['markdown'] = markdown_to_html
 
 # If non logged in user tries view protected page,
 # redirect to login form, and then direct them back

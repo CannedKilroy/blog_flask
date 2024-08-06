@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ 'Edit Resume' if resume_id else 'Create Resume' }}</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+
+        <!-- Name Field -->
+        <div class="form-group">
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control") }}
+            {% if form.name.errors %}
+            {% for error in form.name.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- About Me Field -->
+        <div class="form-group">
+            {{ form.about_me.label(class="form-label", rows=5) }}
+            {{ form.about_me(class="form-control", rows=4) }}
+            {% if form.about_me.errors %}
+            {% for error in form.about_me.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Education Field -->
+        <div class="form-group">
+            {{ form.education.label(class="form-label") }}
+            {{ form.education(class="form-control", rows=4) }}
+            {% if form.education.errors %}
+            {% for error in form.education.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Skills Field -->
+        <div class="form-group">
+            {{ form.skills.label(class="form-label") }}
+            {{ form.skills(class="form-control", rows=4) }}
+            {% if form.skills.errors %}
+            {% for error in form.skills.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Languages Field -->
+        <div class="form-group">
+            {{ form.languages.label(class="form-label") }}
+            {{ form.languages(class="form-control") }}
+            {% if form.languages.errors %}
+            {% for error in form.languages.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Projects Field -->
+        <div class="form-group">
+            {{ form.projects.label(class="form-label") }}
+            {{ form.projects(class="form-control", rows=4) }}
+            {% if form.projects.errors %}
+            {% for error in form.projects.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Experience Field -->
+        <div class="form-group">
+            {{ form.experience.label(class="form-label") }}
+            {{ form.experience(class="form-control", rows=4) }}
+            {% if form.experience.errors %}
+            {% for error in form.experience.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Optional Fields: Location, Email, Phone Number -->
+        <div class="form-group">
+            {{ form.location.label(class="form-label") }}
+            {{ form.location(class="form-control") }}
+            {% if form.location.errors %}
+            {% for error in form.location.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control") }}
+            {% if form.email.errors %}
+            {% for error in form.email.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.phone_num.label(class="form-label") }}
+            {{ form.phone_num(class="form-control") }}
+            {% if form.phone_num.errors %}
+            {% for error in form.phone_num.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- LinkedIn URL Field -->
+        <div class="form-group">
+            {{ form.linkedin.label(class="form-label") }}
+            {{ form.linkedin(class="form-control") }}
+            {% if form.linkedin.errors %}
+            {% for error in form.linkedin.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- GitHub URL Field -->
+        <div class="form-group">
+            {{ form.github.label(class="form-label") }}
+            {{ form.github(class="form-control") }}
+            {% if form.github.errors %}
+            {% for error in form.github.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">{{ 'Update Resume' if resume_id else 'Create Resume'
+                }}</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

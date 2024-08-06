@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="post-content"
+        style="background: #333; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.5); color: #f9f9f9;">
+        <h1>{{ post.title }}</h1>
+        {% if current_user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('post_form', post_id=post.id) }}"
+                style="font-weight: bold; color: #29b6f6;">Edit Post</a>
+        </li>
+        {% endif %}
+
+        {% if post.body %}
+        <div style="margin-top: 20px;">{{ post.body| markdown | safe }}</div>
+        {% else %}
+        <p>No content available.</p>
+        {% endif %}
+    </div>
+    <p style="margin-top: 20px; font-style: italic; color: #666;">Posted on: {{ post.timestamp.strftime('%Y-%m-%d
+        %H:%M') }}</p>
+</div>
+{% endblock %}

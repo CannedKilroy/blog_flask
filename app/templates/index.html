@@ -3,7 +3,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container my-5">
+<div class="container my-5 flex-grow-1"> <!-- Added flex-grow-1 to ensure it takes up necessary space -->
     <div class="row align-items-center">
         <div class="col-md-4 text-center">
             <img src="{{ url_for('static', filename='images/headshot.jpeg') }}" alt="Josiah Schulz"
@@ -11,28 +11,21 @@
             <h2>Data Scientist</h2>
         </div>
         <div class="col-md-8">
-            <h1 class="display-4">Josiah Schulz</h1>
+            <h1 class="display-4">{{ user.username }}</h1>
             <p>
-                Back in my university days, I discovered my passion for data science which led me to delve into the
-                intricate world of coding and software development. Over the years, I've honed my skills through diverse
-                projects ranging from small startups to significant corporate environments, constantly seeking to bridge
-                the gap between data and actionable insights.
-            </p>
-            <p>
-                Currently, I'm focused on creating intuitive and accessible data-driven applications at my current role,
-                striving to seamlessly integrate complex datasets into user-friendly interfaces. Outside of work, I
-                dedicate time to expand my knowledge in R programming, Linux, and Bash, furthering my ability to tackle
-                challenging problems.
-            </p>
-            <p>
-                When I'm not wrapped up in data models and code, I enjoy contributing to open-source projects, exploring
-                new technologies, and sharing my knowledge with aspiring developers through blogging and mentoring.
-                Whether it's hiking in the mountains or navigating the complexities of machine learning algorithms, I'm
-                always on a quest to learn and discover more.
+                <span style="white-space: pre-line">{{ user.about_me }}</span>
             </p>
             <div>
-                <a href="{{ url_for('user', username=current_user.username) }}" class="btn btn-primary">Blog</a>
+                <a href="{{ url_for('blog') }}" class="btn btn-primary">Blog</a>
             </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            {% for post in posts %}
+            {% include '_post.html' %}
+            {% endfor %}
         </div>
     </div>
 </div>
