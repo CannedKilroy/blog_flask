@@ -1,20 +1,77 @@
-<!-- Home Page -->
-
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container my-5 flex-grow-1"> <!-- Added flex-grow-1 to ensure it takes up necessary space -->
+<style>
+    .post-content,
+    .about-me-section {
+        background: #333;
+        /* Lighter than black for softer contrast */
+        color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        /* Softer shadow */
+        margin-bottom: 20px;
+        /* Adds space between sections */
+    }
+
+    h1,
+    h2 {
+        color: #38b6ff;
+        /* Consistent color for headers */
+        margin-bottom: 10px;
+        /* Space below headers */
+    }
+
+    h3 {
+        color: #333;
+        /* Consistent color for headers */
+        margin-bottom: 10px;
+        /* Space below headers */
+        font-weight: bold;
+        /* Makes the text bold */
+        font-size: 36px;
+    }
+
+    p,
+    li {
+        text-align: justify;
+        /* Improves readability for longer texts */
+        line-height: 1.6;
+        /* Increases line height for better readability */
+    }
+
+    .btn-primary {
+        background-color: #333;
+        /* Standard primary button color */
+        border-color: #004080;
+        /* Darker border for button */
+        padding: 10px 20px;
+        /* Larger button for easier clicking */
+    }
+
+    .username-title {
+        font-weight: bold;
+        color: #333;
+    }
+</style>
+<div class="container my-5 flex-grow-1">
     <div class="row align-items-center">
         <div class="col-md-4 text-center">
             <img src="{{ url_for('static', filename='images/headshot.jpeg') }}" alt="Josiah Schulz"
                 class="img-fluid rounded-circle mb-3">
+            <h1 class="display-4 username-title">{{ user.username }}</h1>
             <h2>Data Scientist</h2>
         </div>
         <div class="col-md-8">
-            <h1 class="display-4">{{ user.username }}</h1>
-            <p>
-                <span style="white-space: pre-line">{{ user.about_me }}</span>
-            </p>
+            <h3>Welcome to my blog</h3>
+            <!-- Styling the About Me section like the blog posts -->
+            <div class="post-content"
+                style="background: #333; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.5); color: #f9f9f9;">
+                <p>
+                    <span style="white-space: pre-line">{{ user.about_me }}</span>
+                </p>
+            </div>
             <div>
                 <a href="{{ url_for('blog') }}" class="btn btn-primary">Blog</a>
             </div>

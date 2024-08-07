@@ -6,6 +6,24 @@
         color: white;
     }
 
+    .card-body {
+        height: 200px;
+        /* Set a fixed height */
+        overflow: hidden;
+        /* Prevents content from overflowing */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card-text {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        /* Limits the text to 3 lines */
+        overflow: hidden;
+    }
+
     .card {
         border: none;
         transition: box-shadow 0.3s ease, transform 0.3s ease;

@@ -24,7 +24,6 @@ def markdown_to_html(markdown_text):
     """Convert Markdown text to HTML"""
     html = markdown2.markdown(markdown_text)
     return html
-
 app.jinja_env.filters['markdown'] = markdown_to_html
 
 # If non logged in user tries view protected page,
