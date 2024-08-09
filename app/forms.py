@@ -57,6 +57,11 @@ class RegistrationForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About me')
+    new_password = PasswordField('New Password')
+    new_password2 = PasswordField(
+        'Repeat Password',
+        validators=[EqualTo('new_password', message='Passwords must match')]
+        )
     submit = SubmitField('Submit')
 
     def __init__(self, original_username, *args, **kwargs):
@@ -77,18 +82,22 @@ class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     tag = StringField('Tag', validators=[DataRequired()])
     body = MDEditorField('Content', validators=[DataRequired()])
+    delete = BooleanField('Delete this post') 
     submit = SubmitField('Submit')
 
 class ResumeForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    about_me = TextAreaField('About_Me', validators=[DataRequired()])
-    education = TextAreaField('education', validators=[DataRequired()])
-    skills = TextAreaField('skills', validators=[DataRequired()])
-    languages = TextAreaField('languages', validators=[DataRequired()])
-    projects = TextAreaField('projects', validators=[DataRequired()])
-    experience = TextAreaField('experience', validators=[DataRequired()])
-    location = StringField('location', validators=[DataRequired()])
-    email = StringField('email')
-    phone_num = StringField('phone_num')
-    linkedin = StringField('linkedin', validators=[DataRequired()])
-    github = StringField('github', validators=[DataRequired()])
+    # DO NOT USE MDEDITORFIELD HERE, IT DOES NOT WORK HERE IDK WHY
+    name = TextAreaField('name')
+    about_me = TextAreaField('about_me')
+    education = TextAreaField('education')
+    skills = TextAreaField('skills')
+    languages = TextAreaField('languages')
+    projects = TextAreaField('projects')
+    experience = TextAreaField('experience')
+    location = TextAreaField('location')
+    email = TextAreaField('email')
+    phone_num = TextAreaField('phone_num')
+    linkedin = TextAreaField('linkedin')
+    github = TextAreaField('github')
+
+    submit = SubmitField('Submit')

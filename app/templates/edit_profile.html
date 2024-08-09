@@ -33,6 +33,23 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
+
+        <div class="form-group">
+            {{ form.new_password.label(class="form-label") }}
+            {{ form.new_password(class="form-control") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.new_password2.label(class="form-label") }}
+            {{ form.new_password2(class="form-control") }}
+            {% if form.new_password2.errors %}
+            <div class="invalid-feedback">
+                {% for error in form.new_password2.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
         <p>{{ form.submit() }}</p>
     </form>
 </body>

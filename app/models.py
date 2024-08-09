@@ -76,7 +76,6 @@ class Post(db.Model):
 
     def __repr__(self):
         return f'<id:{self.id} title:{self.title} tag:{self.tag} body:{self.body} timestamp:{self.timestamp} user_id:{self.user_id}>'
-        
 
 
 class Resume(db.Model):
@@ -97,4 +96,4 @@ class Resume(db.Model):
     github: so.Mapped[str] = so.mapped_column(sa.Text)
 
     def __repr__(self):
-        return f'<Resume {self.name}>'
+        return f'<name: {self.name}, about_me: {self.about_me}, education: {self.education}...>'

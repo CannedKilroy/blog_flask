@@ -59,7 +59,7 @@
     <div class="row align-items-center">
         <div class="col-md-4 text-center">
             <img src="{{ url_for('static', filename='images/headshot.jpeg') }}" alt="Josiah Schulz"
-                class="img-fluid rounded-circle mb-3">
+                class="img-fluid rounded-circle mb-3" style="width: 250px; height: auto;">
             <h1 class="display-4 username-title">{{ user.username }}</h1>
             <h2>Data Scientist</h2>
         </div>
@@ -69,7 +69,7 @@
             <div class="post-content"
                 style="background: #333; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.5); color: #f9f9f9;">
                 <p>
-                    <span style="white-space: pre-line">{{ user.about_me }}</span>
+                    <span style="white-space: pre-line">{{ user.about_me | markdown | safe }}</span>
                 </p>
             </div>
             <div>

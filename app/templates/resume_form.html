@@ -3,13 +3,13 @@
 {% block content %}
 <div class="container mt-4">
     <h1>{{ 'Edit Resume' if resume_id else 'Create Resume' }}</h1>
-    <form action="" method="post">
+    <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
 
         <!-- Name Field -->
         <div class="form-group">
             {{ form.name.label(class="form-label") }}
-            {{ form.name(class="form-control") }}
+            {{ form.name(class="form-control", rows=4) }}
             {% if form.name.errors %}
             {% for error in form.name.errors %}
             <div class="alert alert-danger">{{ error }}</div>
@@ -19,8 +19,8 @@
 
         <!-- About Me Field -->
         <div class="form-group">
-            {{ form.about_me.label(class="form-label", rows=5) }}
-            {{ form.about_me(class="form-control", rows=4) }}
+            {{ form.about_me.label(class="form-label") }}
+            {{ form.about_me(class="form-control", rows=5) }}
             {% if form.about_me.errors %}
             {% for error in form.about_me.errors %}
             <div class="alert alert-danger">{{ error }}</div>
@@ -31,7 +31,7 @@
         <!-- Education Field -->
         <div class="form-group">
             {{ form.education.label(class="form-label") }}
-            {{ form.education(class="form-control", rows=4) }}
+            {{ form.education(class="form-control", rows=5) }}
             {% if form.education.errors %}
             {% for error in form.education.errors %}
             <div class="alert alert-danger">{{ error }}</div>
@@ -42,7 +42,7 @@
         <!-- Skills Field -->
         <div class="form-group">
             {{ form.skills.label(class="form-label") }}
-            {{ form.skills(class="form-control", rows=4) }}
+            {{ form.skills(class="form-control", rows=5) }}
             {% if form.skills.errors %}
             {% for error in form.skills.errors %}
             <div class="alert alert-danger">{{ error }}</div>
@@ -83,7 +83,7 @@
             {% endif %}
         </div>
 
-        <!-- Optional Fields: Location, Email, Phone Number -->
+        <!-- Location Field -->
         <div class="form-group">
             {{ form.location.label(class="form-label") }}
             {{ form.location(class="form-control") }}
@@ -94,6 +94,7 @@
             {% endif %}
         </div>
 
+        <!-- Email field -->
         <div class="form-group">
             {{ form.email.label(class="form-label") }}
             {{ form.email(class="form-control") }}
@@ -104,6 +105,7 @@
             {% endif %}
         </div>
 
+        <!-- Phone Number Field-->
         <div class="form-group">
             {{ form.phone_num.label(class="form-label") }}
             {{ form.phone_num(class="form-control") }}
@@ -141,6 +143,7 @@
             <button type="submit" class="btn btn-primary">{{ 'Update Resume' if resume_id else 'Create Resume'
                 }}</button>
         </div>
+
     </form>
 </div>
 {% endblock %}

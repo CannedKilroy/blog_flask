@@ -1,3 +1,4 @@
+<!-- Display Preview of post -->
 <!-- _post.html: Partial for displaying a single blog post card-->
 <style>
     .card-header {
@@ -63,7 +64,8 @@
             <p class="card-text">{{ post.body | truncate(150) }}</p>
             <p class="card-text"><small class="text-muted">Posted on {{ post.timestamp.strftime('%Y-%m-%d
                     %H:%M') }}</small></p>
-            <a href="{{ url_for('article', article_id=post.id) }}" class="btn btn-secondary">Read More</a>
+            <!-- Send to -->
+            <a href="{{ url_for('post', post_id=post.id) }}" class="btn btn-secondary">Read More</a>
         </div>
     </div>
 </div>

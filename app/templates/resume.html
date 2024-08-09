@@ -9,75 +9,61 @@
     <style>
         body,
         html {
-            height: 100%;
             margin: 0;
-            font-family: Arial, sans-serif;
-            /* Ensuring the font is consistent */
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             color: #333;
-            /* Dark grey text for better readability */
+            background-color: #f8f9fa;
         }
 
-        .container {
-            padding: 20px;
+        .resume-container {
+            max-width: 800px;
             margin: auto;
-            width: 80%;
-            /* Limit width and center the container */
-            background-color: #f4f4f4;
-            /* Light grey background */
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .header-section {
+            text-align: center;
             margin-bottom: 20px;
         }
 
-        .header h1 {
-            font-size: 40px;
-            /* Large font size for name */
-            color: #212529;
-            /* Almost black color for the header */
+        .header-section h1 {
+            font-size: 36px;
+            margin: 0;
         }
 
-        .contact-info {
-            text-align: right;
+        .header-section p {
             font-size: 16px;
+            color: #666;
         }
 
-        h2 {
-            color: #212529;
-            /* Header color */
-            border-bottom: 2px solid #212529;
-            /* Add a line under the headers */
+        .section-header {
+            padding-bottom: 3px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #333;
+            color: #333;
         }
 
-        .section {
-            margin-bottom: 20px;
-        }
-
-        .skills ul,
-        .languages ul,
-        .experience ul {
-            list-style-type: none;
-            /* No bullets for lists */
+        .details ul {
+            list-style: none;
             padding: 0;
         }
 
-        .skills li,
-        .languages li,
-        .experience li {
-            margin-bottom: 10px;
+        .details ul li {
+            margin-bottom: 5px;
         }
 
-        .footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #343a40;
-            color: #ffffff;
+        .links a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
         }
     </style>
-    <title>{{resume.name}}- Resume</title>
 </head>
 
 <body>
@@ -87,55 +73,48 @@
     </li>
     {% endif %}
 
-    <div class="container">
-        <div class="header">
-            <h1>{{resume.name}}</h1>
-            <div class="contact-info">
-                <p>{{resume.phone_num}}</p>
-                <p>{{resume.email}}</p>
-                <p>{{resume.location}}</p>
-                <p><a href="{{resume.linkedin}}">LinkedIn</a></p>
-                <p><a href="{{resume.github}}">GitHub</a></p>
+    <div class="resume-container">
+        <div class="header-section">
+            <h1>{{ resume.name }}</h1>
+            <p>Data Scientist</p>
+            <div class="links">
+                <a href="https://{{ resume.linkedin }}">LinkedIn</a> |
+                <a href="https://{{ resume.github }}">GitHub</a>
             </div>
         </div>
 
-        <div class="section about-me">
-            <h2>About Me</h2>
-            <p>{{resume.about_me}}</p>
+        <div class="section">
+            <h2 class="section-header">Profile</h2>
+            <p>{{ resume.about_me | markdown | safe }}</p>
         </div>
 
-        <div class="section about-me">
-            <h2>Education</h2>
-            <p>{{resume.education}}</p>
+        <div class="section">
+            <h2 class="section-header">Education</h2>
+            <p>{{ resume.education | markdown | safe }}</p>
         </div>
 
-        <div class="section skills">
-            <h2>Skills</h2>
-            <ul>
-                <li>{{resume.skills}}</li>
+        <div class="section">
+            <h2 class="section-header">Skills</h2>
+            <p>{{ resume.skills | markdown | safe }}</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Projects</h2>
+            <p>{{ resume.projects | markdown | safe }}</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Experience</h2>
+            <p>{{ resume.experience | markdown | safe }}</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Languages</h2>
+            <ul class="details">
+                <p>{{ resume.languages | markdown | safe }}</p>
             </ul>
         </div>
 
-        <div class="section languages">
-            <h2>Languages</h2>
-            <ul>
-                <li>{{resume.languages}}</li>
-            </ul>
-        </div>
-
-        <div class="section experience">
-            <h2>Projects</h2>
-            <ul>
-                <li>{{resume.projects}}</li>
-            </ul>
-        </div>
-
-        <div class="section experience">
-            <h2>Experience</h2>
-            <ul>
-                <li>{{resume.experience}}</li>
-            </ul>
-        </div>
     </div>
 </body>
 

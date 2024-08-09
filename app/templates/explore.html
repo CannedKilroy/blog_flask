@@ -1,43 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<style>
-    .card-header {
-        background-color: #007bff;
-        /* Bootstrap primary color */
-        color: white;
-    }
-
-    .card {
-        border: none;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-        /* Add transition */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        margin: 0;
-        /* Remove default margin */
-    }
-
-    .card:hover {
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        /* Larger shadow for a more pronounced effect */
-        transform: scale(1.05);
-        /* Slightly enlarge the tile */
-    }
-
-    .tag-badge {
-        background-color: #6c757d;
-        /* Bootstrap secondary color */
-        color: white;
-        margin-right: 5px;
-    }
-
-    .post-tile {
-        padding: 10px;
-        flex-grow: 1;
-        /* Allows the tile to fill the space available */
-    }
-</style>
-
 <div class="container-fluid mt-4"> <!-- Using container-fluid for full width -->
     <div class="row">
         {% for post in posts %}
