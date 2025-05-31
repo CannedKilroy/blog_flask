@@ -9,36 +9,13 @@ from datetime import datetime, timezone
 from flask import current_app
 from werkzeug.security import generate_password_hash
 
-'''
-This tells flask that the view function accepts GET and POST
-requests, overriding the default GET request only. GET requests 
-are those that return information to the client ie web browser.
-POST request are typically used when the browser submits form data
-to the server.
-
-GET requests are used to retrieve data from the server, and should
-not change the state of the server, should only retrieve data.
-
-POST requests are used to send data to the server ie create or 
-update a resource. Typically used when submitting form data. 
-
-When the browser sends the POST request when 
-the user presses on the submit button
-it will gather the data and run the validators 
-and return true if the data is valid
-
-db.session for simple crud operations
-'''
-
 
 '''
-Index ie home page
+Index page
 '''
 @app.route('/')
 @app.route('/index')
 def index():
-    # Get the user object
-    # Returns None if no rows present
     username = current_app.config['BLOG_USERNAME']
     user = db.first_or_404(sa.select(User).where(User.username == username))
     if user is None:
@@ -85,25 +62,6 @@ Logout User
 def logout():
     logout_user()
     return redirect(url_for('index'))
-
-
-"""
-Register User
-"""
-#@app.route('/register', methods=['GET', 'POST'])
-#def register():
-#    if current_user.is_authenticated:
-#        return redirect(url_for('index'))
-#    form = RegistrationForm()
-#    
-#    if form.validate_on_submit():
-#        user = User(username=form.username.data, email=form.email.data)
-#        user.set_password(form.password.data)
-#        db.session.add(user)
-#        db.session.commit()
-#        flash(message='You are registered')
-#        return redirect(url_for('login'))
-#    return render_template('register.html', title='Register', form=form)
 
 
 """

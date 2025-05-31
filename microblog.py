@@ -1,4 +1,3 @@
-# From the app package import the app variable defined within the __init__
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from app import app, db

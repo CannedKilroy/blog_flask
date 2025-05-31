@@ -1,6 +1,10 @@
 # Flask Blog
 My flask blog
 
+Start app: flask run
+
+Admin login: login route
+
 ## TODO
 - Form for people to reachout to me eliminating the need to post email on public website.
 - Improved styling on home page
