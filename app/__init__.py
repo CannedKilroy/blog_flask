@@ -12,7 +12,7 @@ import markdown2
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config.from_object(Config) # Read and apply the configs
+app.config.from_object(Config)
 db = SQLAlchemy(app=app)
 migrate = Migrate(app=app, db=db)
 app.config['MDEDITOR_FILE_UPLOADER'] = os.path.join(basedir, 'static', 'images')
@@ -26,9 +26,6 @@ def markdown_to_html(markdown_text):
     return html
 app.jinja_env.filters['markdown'] = markdown_to_html
 
-# If non logged in user tries view protected page,
-# redirect to login form, and then direct them back
-# to the original page once verified
 login = LoginManager(app)
 login.login_view = 'login'
 

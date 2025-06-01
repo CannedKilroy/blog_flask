@@ -1,9 +1,11 @@
 # Flask Blog
 My flask blog
 
-Start app: flask run
+Start app dev: 
+- flask run
 
-Admin login: login route
+Admin login: 
+- /login route
 
 ## TODO
 - Form for people to reachout to me eliminating the need to post email on public website.
@@ -13,3 +15,4 @@ Admin login: login route
 - Add role field to resume table
 - Add download option to resume
 - Functionality for users to subscribe to the site
+- add Errors
